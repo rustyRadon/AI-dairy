@@ -121,12 +121,6 @@ cargo check
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and configure:
-- `PORT=3000`
-- `MONGO_URI=mongodb://localhost:27017/ai_diary`
-- `JWT_SECRET=your_secret_key`
-- `OPENAI_API_KEY=your_openai_key`
-- `ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000`
 
 ## Key Notes
 
@@ -138,3 +132,14 @@ Copy `.env.example` to `.env` and configure:
 
 ## next up.
 auth
+1. Authentication & Security (Completed)Registration & Login: Implemented handlers that interact with MongoDB to create users and verify credentials using bcrypt for password hashing.  JWT Integration: Created a robust jwt.rs utility that handles token generation and validation using your specific encode_jwt and decode_jwt logic.  Automated Route Protection: Implemented an Axum Claims extractor. This acts as a "Silent Operator" that automatically verifies the Authorization header before allowing access to private data.  User Management: Finished the get_me and update_me endpoints, allowing the Flutter app to retrieve and modify user profiles securely.  
+
+2. Database & Models (Completed)User Schema: Defined the User, UserInfo, and UpdateUserRequest structs in models/user.rs to ensure strict type safety and data integrity.  Database Connectivity: Wired the Database state through the Axum router, allowing all handlers to perform asynchronous MongoDB operations. 
+
+3. Conversation Foundation (In Progress)Chat Structure: Defined the Conversation and Message models in models/conversation.rs to support the diary’s core chat functionality.  Session Management: Implemented the conversation_router which handles creating new diary sessions and fetching historical chat messages for the ConversationHistoryScreen in Flutter.  User Scoping: Ensured that all conversation queries are filtered by the authenticated user_id extracted from the JWT. 
+
+Summary of Progress (Section 4 & 5)OpenAI Service: Upgraded to the Chat Completion API with the correct model (gpt-4o-mini) and system role to maintain the Ọ̀rẹ́ persona.  
+Interactive Chat: Fully implemented the add_message logic, which now creates a user message, fetches an AI response, and saves both to the database.  
+Memory Management: Replaced placeholders with functional recall and timeline endpoints that filter data by the authenticated user's ID.  
+Timeline Support: Added date-based sorting to the memory timeline to support the Flutter frontend's visualization needs.  
+
