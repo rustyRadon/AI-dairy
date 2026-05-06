@@ -1,11 +1,22 @@
+use mongodb::bson::oid::ObjectId;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JournalEntry {
-    pub id: String,
-    pub user_id: String,
-    pub content: String,
+    #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
+    pub id: Option<ObjectId>,
+    pub user_id: ObjectId,
+    pub title: String,
     pub pinned: bool,
-    pub created_at: String,
-    pub updated_at: String,
+    pub content: String,
+    pub mood: Option<String>, // e.g., "Grateful", "Anxious", "Neutral"
+    pub created_at: chrono::DateTime<chrono::Utc>,
+    pub updated_at: chrono::DateTime<chrono::Utc>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CreateJournalRequest {
+    pub title: String,
+    pub content: String,
+    pub mood: Option<String>,
 }
